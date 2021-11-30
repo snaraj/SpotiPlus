@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %} Spoti+ {% endblock %}
+{% block body %}
+<h1>Spoti+ Home Page.</h1>
+<table>
+	<tr>
+		<td>
+			<h3>Current User: {{ user_display_name }}</h3>
+		</td>
+		<td>
+			<img src="{{ user_display_image }}" width="200px" height="200px">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h3>{{ user_display_name }}'s Current Playback:</h3>
+		</td>
+		<td>{{ current_playback_song_title }} {{ current_playblack_song_artist }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h3>Add Song to Queue!</h3>
+		</td>
+		<td>
+			<form method="post">
+				<label for="song_name">Song Name:</label><br>
+				<input type="text" id="song_name" name="song_name"><br>
+				<label for="artist_name">Artist Name:</label><br>
+				<input type="text" id="artist_name" name="artist_name"><br>
+				<input type="submit" name="Submit">
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h3>Top Songs & Top Artist</h3>
+		</td>
+		{% for artist, song in zip(current_user_top_artist, current_user_top_tracks): %}
+		<tr>
+			<td>{{ artist }}</td>
+			<td>{{ song }}</td>
+		</tr>
+		{% endfor %}
+	</tr>
+</table>
+<table>
+	<tr>
+	{% for song, artist, path, lyric in zip(songs, artists, paths, lyrics): %}
+		<tr>
+			<td>{{ song }}</td>
+			<td>{{ artist }}</td>
+			<td><a href="{{ path }}">Genius Link: {{ song }}</a></td>
+			<td>{{ lyric }}</td>
+		</tr>
+	{% endfor %}
+	</tr>
+</table>
+{% endblock %}
