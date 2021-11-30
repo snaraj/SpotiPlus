@@ -5,6 +5,7 @@ from spotiPlus.spotify.spotify_utils import get_current_saved_tracks_list, get_c
 
 from flask import render_template, Blueprint, url_for, redirect, request
 from spotipy.oauth2 import SpotifyOAuth
+from spotipy.exceptions import SpotifyException
 from typing import Dict
 from lyricsgenius import Genius
 
@@ -26,7 +27,7 @@ def generate_payload(artist_name: str, song_name: str) -> Dict[str,str]:
 
 def get_song_lyrics_from_genius(artist_name: str, song_name: str) -> str:
 	artist = genius.search_artist(artist_name, max_songs=1)
-	song = genius.search_song(song_name, artist.name)
+	song = genius.search_song(song_name, artist_name)
 	return song.lyrics
 
 
@@ -97,7 +98,10 @@ def spotify():
 		
 		#handles not finding the right song on queue.
 		if search_response['tracks']['total'] != 0:
-			add_to_queue(get_queue_uri(search_response))
+			try:
+				add_to_queue(get_queue_uri(search_response))
+			except SpotifyException:
+				print('No device playing.')
 		else:
 			print('No song found.')
 
