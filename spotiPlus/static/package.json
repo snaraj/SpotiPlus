@@ -1,0 +1,17 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "autoprefix": "^1.0.1",
+    "postcss": "^8.4.4",
+    "tailwindcss": "^2.2.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build-css": "tailwindcss -i src/styles.css -o base.css"
+  },
+  "author": "",
+  "license": "ISC"
+}

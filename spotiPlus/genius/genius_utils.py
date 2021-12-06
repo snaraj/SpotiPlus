@@ -24,7 +24,17 @@ def get_song_lyrics(artist_name: str, song_name: str) -> str:
 		artist = genius.search_artist(artist_name, max_songs=1, allow_name_change=True)
 		song = genius.search_song(song_name, artist_name)
 		lyrics = song.lyrics
+		lyrics = clean_lyrics(lyrics)
 	
+	return lyrics
+
+def clean_lyrics(lyrics: str) -> str:
+	lyrics = lyrics.lstrip()
+	lyrics = lyrics.rstrip()
+	lyrics = lyrics.replace('more142EmbedShare URLCopyEmbedCopy', '')
+	lyrics = lyrics.replace('URLCopyEmbedCopy', '')
+	lyrics = lyrics.replace('EmbedShare', '')
+
 	return lyrics
 
 def get_genius_path(artists_list: List[str], songs_list: List[str]) -> List[str]:

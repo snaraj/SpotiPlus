@@ -1,9 +1,11 @@
 import spotipy
+#remove during production
 import pprint
 from typing import Dict, Union, List
 
 from spotipy.oauth2 import SpotifyOAuth
 from spotiPlus.spotify.secrets import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, REDIRECT_URI, SCOPE
+from spotipy.exceptions import SpotifyException
 
 #Spotify OAUTH2.0
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
@@ -78,6 +80,15 @@ def get_current_user_current_playback_song_artist(current_playback: Dict[str, st
 	else:
 		return 'Artist Unavailable.'
 
+#grabs the imagine for the current playback
+def get_current_playback_image(current_playback: Dict[str, str]) -> str:
+	image_uri = 'No Image Avaliable.'
+	try:
+		image_uri = current_playback['item']['album']['images'][0]['url']
+	except TypeError:
+		print('No song is currently playing.')
+	return image_uri
+
 # ---> USER'S TOP TRACKS & ARTIST:
 #returns the user's top tracks
 def get_current_user_top_tracks(limit: int) -> Union[Dict[str, str], None]:
@@ -114,20 +125,26 @@ def get_current_user_top_artists(limit: int) -> Union[Dict[str, str], None]:
 
 	return top_artists
 
-#returns the artist of a top track
-def get_current_user_top_track_artist(top_artist: Dict[str, str], index: int) -> str:
+def get_current_user_top_artist_name(top_artist: Dict[str, str], index) -> str:
 	if top_artist:
 		return top_artist['items'][index]['name']
 	else:
-		return 'Top Track Name Unavailable.'
+		return 'Top artist not found.'
 
 def generate_top_artist_list(limit: int) -> List[str]:
-	top_tracks = get_current_user_top_tracks(limit)
+	top_artists = get_current_user_top_artists(limit)
 	top_artist_list = []
 	for i in range(limit):
-		top_artist_list.append(get_current_user_top_track_artist(top_tracks, i))
+		top_artist_list.append(get_current_user_top_artist_name(top_artists, i))
 
 	return top_artist_list
+
+#returns the artist name of a top track
+def get_current_user_top_track_artist(top_artist: Dict[str, str], index: int) -> str:
+	if top_artist:
+		return top_artist['items'][index]['artists'][0]['name']
+	else:
+		return 'Top Track Name Unavailable.'
 
 #implements sp.search()
 def search(query: str, limit: str, type_content: str) -> str:
@@ -143,6 +160,31 @@ def add_to_queue(response_uri: str) -> None:
 	sp.add_to_queue(response_uri)
 	return 
 
+#skips the current playback to the next song
+def next_track() -> None:
+	try:
+		sp.next_track()
+	except SpotifyException:
+		return 'Cannot go to next track'
+
+#goes back to the previous track
+def previous_track() -> None:
+	try:
+		sp.previous_track()
+	except SpotifyException:
+		return 'Cannot go to the previous track'
+
+def pause_playback() -> None:
+	try:
+		sp.pause_playback()
+	except SpotifyException:
+		return 'Cannot pause current playback'
+
+def resume_playback() -> None:
+	try:
+		sp.start_playback()
+	except SpotifyException:
+		return 'Cannot resume playback'
 
 
 
