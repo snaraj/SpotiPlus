@@ -34,6 +34,7 @@ def clean_lyrics(lyrics: str) -> str:
 	lyrics = lyrics.replace('more142EmbedShare URLCopyEmbedCopy', '')
 	lyrics = lyrics.replace('URLCopyEmbedCopy', '')
 	lyrics = lyrics.replace('EmbedShare', '')
+	lyrics = lyrics.replace('60', '')
 
 	return lyrics
 

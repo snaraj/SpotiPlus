@@ -188,9 +188,15 @@ def resume_playback() -> None:
 
 
 
+#to generate a recommendation you need a Spotify ID. you can pass
+#in multiple seeds (seed_artists, seed_tracks)
 
+song_id = []
+song_id.append(get_current_user_top_tracks(1)['items'][0]['id'])
+artist_id = []
+artist_id.append(get_current_user_top_artists(1)['items'][0]['id'])
 
-
+pprint.pprint(sp.recommendations(seed_artists=artist_id, seed_tracks=song_id, limit=1))
 
 
 

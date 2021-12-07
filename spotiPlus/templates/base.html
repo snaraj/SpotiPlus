@@ -1,12 +1,15 @@
 <!doctype html>
 <html>
+  {% block head %}
   <head>
-    {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
-    <link href='https://css.gg/play-button-o.css' rel='stylesheet'>
+    <link href='https://css.gg/play-button.css' rel='stylesheet'>
+    <link href='https://css.gg/play-pause.css' rel='stylesheet'>
+    <link href='https://css.gg/play-backwards.css' rel='stylesheet'>
+    <link href='https://css.gg/play-forwards.css' rel='stylesheet'>
     <title>{% block title %}{% endblock %} - My Webpage</title>
-    {% endblock %}
   </head>
+  {% endblock %}
   <body class="font-mono p-5">
     {% block body %}
     {% endblock %}
