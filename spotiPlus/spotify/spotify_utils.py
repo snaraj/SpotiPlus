@@ -5,6 +5,7 @@ import pprint
 from typing import Dict, Union, List
 
 from spotipy.oauth2 import SpotifyOAuth
+#spotiPlus.spotify.
 from spotiPlus.spotify.secrets import (
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
@@ -105,6 +106,13 @@ def get_current_user_current_playback_song_artist(
         return current_playback["item"]["album"]["artists"][0]["name"]
     else:
         return "Artist Unavailable."
+
+#get the current artist URI
+def get_current_artist_uri(current_playback: Dict[str, str]) -> str:
+    return current_playback['item']['album']['artists'][0]['uri']
+
+def get_current_artist_id(current_playback: Dict[str, str]) -> str:
+    return current_playback['item']['album']['artists'][0]['id']
 
 
 # grabs the imagine for the current playback
@@ -227,13 +235,29 @@ def resume_playback() -> None:
     except SpotifyException:
         return "Cannot resume playback"
 
+#generates an artist recommendation based on the current artist
+def get_related_artists(artist_uri: str) -> None:
+    #list to be populated with related artists
+    related_artists = []
+    
+    try: 
+        #artist_related_artits find related artist based on artist URI
+        response = sp.artist_related_artists(artist_uri)
+    except SpotifyException:
+        return "Cannot find current artist."
 
-# to generate a recommendation you need a Spotify ID. you can pass
-# in multiple seeds (seed_artists, seed_tracks)
+    #appends artist name to related artist list.
+    for index, artist in enumerate(response['artists']):
+        related_artists.append(artist['name'])
+    
+    return related_artists
 
-song_id = []
-song_id.append(get_current_user_top_tracks(1)["items"][0]["id"])
-artist_id = []
-artist_id.append(get_current_user_top_artists(1)["items"][0]["id"])
+# # to generate a recommendation you need a Spotify ID. you can pass
+# # in multiple seeds (seed_artists, seed_tracks)
 
-pprint.pprint(sp.recommendations(seed_artists=artist_id, seed_tracks=song_id, limit=1))
+# song_id = []
+# song_id.append(get_current_user_top_tracks(1)["items"][0]["id"])
+# artist_id = []
+# artist_id.append(get_current_user_top_artists(1)["items"][0]["id"])
+
+# pprint.pprint(sp.recommendations(seed_artists=artist_id, seed_tracks=song_id, limit=1))

@@ -26,22 +26,29 @@ song_paths = get_genius_path(saved_recent_artist, saved_recent_tracks)
 user_display_name = get_current_user_display_name(get_current_user())
 user_display_image = get_current_user_display_picture(get_current_user())
 
+
+
 # current playback
+current_playback = get_current_user_current_playback()
+artist_uri = get_current_artist_uri(current_playback)
+
 current_playback_song_title = get_current_user_current_playback_song_title(
-    get_current_user_current_playback()
+    current_playback
 )
 current_playblack_song_artist = get_current_user_current_playback_song_artist(
-    get_current_user_current_playback()
+    current_playback
 )
 current_playback_image_uri = get_current_playback_image(
-    get_current_user_current_playback()
+    current_playback
 )
+
+#recommended artists and songs based on current playback
+recommended_artist = get_related_artists(artist_uri)
 
 # current song lyrics from genius
 current_song_lyrics = get_song_lyrics(
     current_playblack_song_artist, current_playback_song_title
 )
-
 
 # current user top artist and songs
 user_top_artist_list = generate_top_artist_list(5)
@@ -69,6 +76,7 @@ home_template_variables = {
     "current_user_top_artist": user_top_songs_list,
     "artist_summary": artist_summary,
     "song_summary": song_summary,
+    "recommended_artist" : recommended_artist,
 }
 
 
@@ -76,7 +84,7 @@ home_template_variables = {
 def spotify():
     # updating the queue.
     if request.method == "POST":
-        if request.form["Submit"] == "queue_submit":
+        if request.form["Submit"] == "Queue":
             song_name = request.form["song_name"]
             artist_name = request.form["artist_name"]
             search_query = song_name + " " + artist_name

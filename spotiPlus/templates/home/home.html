@@ -69,21 +69,32 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-span-1 text-center">
-		<h3 class="text-lg text-bold mb-5">Top Artist</h3>	
-			<ul class="list-decimal">
-			{% for artist in current_user_top_artist: %}
-				<li class="p-0.2">{{ artist}}</li>
-			{% endfor %}
+		<div class="col-span-1 text-center">
+			<h3 class="text-lg text-bold mb-5">Top Artist</h3>	
+				<ul class="list-decimal">
+				{% for artist in current_user_top_artist: %}
+					<li class="p-0.2">{{ artist }}</li>
+				{% endfor %}
+				</ul>
+			<h3 class="text-lg text-bold m-5">Top Songs</h3>
+				<ul class="list-decimal">
+				{% for song in current_user_top_tracks: %}
+					<li class="p-0.2">{{ song }}</li>
+				{% endfor %}
+				</ul>
+		</div>
+	<div>
+		<div class="col-span-1">
+			<h3 class="text-center">Artist similar to {{ current_playblack_song_artist }}</h3>
+			<ul>
+				{% for artist in recommended_artist: %}
+					<li class="p-0.2">{{ artist }}</li>
+				{% endfor %}
 			</ul>
-		<h3 class="text-lg text-bold m-5">Top Songs</h3>
-			<ul class="list-decimal">
-			{% for song in current_user_top_tracks: %}
-				<li class="p-0.2">{{ song }}</li>
-			{% endfor %}
-			</ul>
+		</div>
 	</div>
 </div>
+
 <!-- <table>
 	<tr>
 	{% for song, artist, path in zip(songs, artists, paths): %}
