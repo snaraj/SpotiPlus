@@ -8,7 +8,7 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 ## Installation
 ##### Note: this project assumes a default python version of 3 or later. It has not been tested on any 2.x distribution.
 
-1. Setting up our environment.
+1. Setting up our environment
 	1. I like to use a tool called [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) to manage my virtual environments.
 
 	![virtual env setup](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/virtual_env_setup1.png?raw=true)
