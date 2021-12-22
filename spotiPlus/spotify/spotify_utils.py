@@ -221,28 +221,28 @@ def previous_track() -> None:
     except SpotifyException:
         return "Cannot go to the previous track"
 
-
+# button now pauses playback
 def pause_playback() -> None:
     try:
         sp.pause_playback()
     except SpotifyException:
         return "Cannot pause current playback"
 
-
+# button now resumes playback
 def resume_playback() -> None:
     try:
         sp.start_playback()
     except SpotifyException:
         return "Cannot resume playback"
 
-#generates an artist recommendation based on the current artist
-def get_related_artists(artist_uri: str) -> None:
+# generates an artist recommendation based on the current artist
+def get_related_artists(artist_id: str) -> None:
     #list to be populated with related artists
     related_artists = []
     
     try: 
         #artist_related_artits find related artist based on artist URI
-        response = sp.artist_related_artists(artist_uri)
+        response = sp.artist_related_artists(artist_id)
     except SpotifyException:
         return "Cannot find current artist."
 
@@ -252,8 +252,8 @@ def get_related_artists(artist_uri: str) -> None:
     
     return related_artists
 
-# # to generate a recommendation you need a Spotify ID. you can pass
-# # in multiple seeds (seed_artists, seed_tracks)
+# to generate a recommendation you need a Spotify ID. you can pass
+# in multiple seeds (seed_artists, seed_tracks)
 
 # song_id = []
 # song_id.append(get_current_user_top_tracks(1)["items"][0]["id"])

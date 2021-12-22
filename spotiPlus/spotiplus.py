@@ -11,27 +11,22 @@ from typing import Dict
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.exceptions import SpotifyException
 
-
 bp = Blueprint("", __name__, url_prefix="")
 
-# saved tracks by recent
-saved_tracks_list = get_current_saved_tracks_list(1)
-saved_recent_tracks = saved_tracks_list[0]
-saved_recent_artist = saved_tracks_list[1]
-
-# song paths to genius pages for most recent saved songs
-song_paths = get_genius_path(saved_recent_artist, saved_recent_tracks)
-
-# current user info
-user_display_name = get_current_user_display_name(get_current_user())
-user_display_image = get_current_user_display_picture(get_current_user())
-
-
-
-# current playback
+#set of variables that get called throughout the app
+#dictionary holding information about current playback
 current_playback = get_current_user_current_playback()
+#get the uri of the current artist
 artist_uri = get_current_artist_uri(current_playback)
+artist_id = get_current_artist_id(current_playback)
+#get the current user
+current_user = get_current_user()
 
+#current user info
+user_display_name = get_current_user_display_name(current_user)
+user_display_image = get_current_user_display_picture(current_user)
+
+#current playback
 current_playback_song_title = get_current_user_current_playback_song_title(
     current_playback
 )
@@ -42,24 +37,31 @@ current_playback_image_uri = get_current_playback_image(
     current_playback
 )
 
+# saved tracks by recent
+saved_tracks_list = get_current_saved_tracks_list(1)
+saved_recent_tracks = saved_tracks_list[0]
+saved_recent_artist = saved_tracks_list[1]
+
+# song paths to genius pages for most recent saved songs
+song_paths = get_genius_path(saved_recent_artist, saved_recent_tracks)
+
 #recommended artists and songs based on current playback
 recommended_artist = get_related_artists(artist_uri)
 
-# current song lyrics from genius
+#current song lyrics from genius
 current_song_lyrics = get_song_lyrics(
     current_playblack_song_artist, current_playback_song_title
 )
 
-# current user top artist and songs
+#top songs and artist from current user
 user_top_artist_list = generate_top_artist_list(5)
 user_top_songs_list = generate_top_track_list(5)
 
-# last fm artist and song summary:
+#generates artist and track summary from LastFM API:
 artist_summary = get_artist_summary(current_playblack_song_artist)
 song_summary = get_track_summary(
     current_playback_song_title, current_playblack_song_artist
 )
-
 
 # variables being passed to the home.html template.
 home_template_variables = {
