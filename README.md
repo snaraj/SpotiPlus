@@ -22,3 +22,35 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 
 3. Installing tailwindCSS
 	1. Lastly, we need to make sure that our CSS is working properly. Simply run the command ```npm install -D tailwindcss``` while on the root of the project.
+
+
+## Usage
+1. To run the app simply type ```flask run```
+![flask run](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/flask%20run.png?raw=true)
+
+2. If this is your first time using spotiPlus, you will be automatically redirected to spotify's authentication page, simply sign in.
+
+3. Once logged in, you will be redirected back to our dashboard, when nothing is playing, it will look like this
+![No playback](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/no%20playback%20dashboard.png?raw=true)
+
+4. On the contrary, with playback the app will look like this
+![playback](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/playback%20dashboard.png?raw=true)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
