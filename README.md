@@ -25,16 +25,30 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 
 
 ## Usage
-1. To run the app simply type ```flask run```
+1. To run the app enter ```flask run``` on the root folder.
 ![flask run](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/flask%20run.png?raw=true)
 
-2. If this is your first time using spotiPlus, you will be automatically redirected to spotify's authentication page, simply sign in.
+2. If this is your first time using spotiPlus, you will be automatically redirected to spotify's authentication page, sign in.
 
-3. Once logged in, you will be redirected back to our dashboard, when nothing is playing, it will look like this
+3. Once logged in, you will be redirected back to spotiPlus's dashboard, when nothing is playing, it will look like this.
+
 ![No playback](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/no%20playback%20dashboard.png?raw=true)
 
-4. On the contrary, with playback the app will look like this
+4. On the contrary, with playback the app will look like this.
+
 ![playback](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/playback%20dashboard.png?raw=true)
+
+5. Using the queue is simple, just type an artist and a song.
+
+![queue](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/queue%20new%20song.png?raw=true)
+
+## Credits
+List of relevant links:
+ - Spotify api: https://developer.spotify.com/documentation/web-api/
+ - SpotiPy Library: https://spotipy.readthedocs.io/en/2.19.0/
+ - Genius API: https://docs.genius.com/
+ - LastFM API: https://www.last.fm/api
+ - Flask Docs: https://flask.palletsprojects.com/en/2.0.x/
 
 
 
