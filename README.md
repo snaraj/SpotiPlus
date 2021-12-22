@@ -13,4 +13,12 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 
 	![virtual env setup](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/virtual_env_setup1.png?raw=true)
 
-	2. After installing the virtual environment, we need to install our dependencies for this project. First, run ```npm install``` and then run ```pip install requirements.txt``` while on the root of the project.
+	2. After installing the virtual environment, we need to install our dependencies for this project. First, run ```npm install``` and then run ```pip install -r requirements.txt``` while on the root of the project.
+
+2. Setting up environment variables
+	1. Since this project is made using Flask, and our app name is not app.py, we need to tell Flask the name of the app. We also need to let Flask know that we are working on a development environment.
+
+	![Flask set up](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/flask_setup_1.png?raw=true)
+
+3. Installing tailwindCSS
+	1. Lastly, we need to make sure that our CSS is working properly. Simply run the command ```npm install -D tailwindcss``` while on the root of the project.
