@@ -44,7 +44,7 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 
 ## Credits
 List of relevant links:
- - Spotify api: https://developer.spotify.com/documentation/web-api/
+ - Spotify API: https://developer.spotify.com/documentation/web-api/
  - SpotiPy Library: https://spotipy.readthedocs.io/en/2.19.0/
  - Genius API: https://docs.genius.com/
  - LastFM API: https://www.last.fm/api
