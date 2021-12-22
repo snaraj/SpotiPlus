@@ -11,6 +11,6 @@ SpotiPlus aims to enhance the spotify user experience by creating a data rich da
 1. Setting up our environment.
 	1. I like to use a tool called [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) to manage my virtual environments.
 
-	![virtual env setup](https://github.com/snaraj/SpotiPlus/tree/master/assets/images/virtual_env_setup1.png)
+	![virtual env setup](https://github.com/snaraj/SpotiPlus/blob/master/assets/images/virtual_env_setup1.png?raw=true)
 
-	2. After installing the virtual environment, we need to install our dependencies for this project. First, run ```npm install``` and then run ```pip install requirements.txt```.
+	2. After installing the virtual environment, we need to install our dependencies for this project. First, run ```npm install``` and then run ```pip install requirements.txt``` while on the root of the project.
