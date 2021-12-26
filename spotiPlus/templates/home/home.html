@@ -9,16 +9,16 @@
 	//div id, this will always cause a TypeError error.
 	$(function () {
 		window.setInterval(function() {
-			allFunctions();
+			updateDashboard();
 		}, 1000);
 
-		function update_playback(){
+		function update_aboutTitle(){
 			$.ajax({
-				url: "/update_playback",
+				url: "/update_aboutTitle",
 				type: "POST",
 				dataType: "json",
 				success: function(data){
-					$(current_playback_song_title).replaceWith(data)
+					$(update_songTitle_about).replaceWith(data)
 				}
 			});
 		}
@@ -35,9 +35,35 @@
 			})
 		}
 
-		function allFunctions() {
-			update_playback();
+		function update_playerTitle() {
+			$.ajax({
+				url: "/update_playerTitle",
+				type: "POST",
+				dataType: "json",
+				success: function(data) {
+					$(update_songTitle_player).replaceWith(data)
+				}
+			})
+		}
+
+		function update_playerArtist() {
+			$.ajax({
+				url: "/update_playerArtists",
+				type: "POST",
+				dataType: "json",
+				success: function(data) {
+					$(update_songArtists_player).replaceWith(data)
+				}
+			})
+		}
+
+		function updateDashboard() {
+			// updating About section
+			update_aboutTitle();
 			update_aboutArtist();
+			// updating Player section
+			update_playerTitle();
+			update_playerArtist();
 		}
 	});
 </script>
@@ -61,36 +87,37 @@
 			{{ current_song_lyrics }}
 		</textarea>
 	</div>
+	<!-- ABOUT SECTION -->
 	<div class="col-span-1">
-		<div class="">
-			<p class="mt-8 mb-5 text-center text-lg text-bold">About 
-				<!-- about the current artist -->
-				<div id="update_songArtist_about">
-					{{ update_songArtist_about }}
-				</div>
-			</p>
-			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="6">{{ artist_summary }}</textarea>
-			<p class="m-5 text-center text-lg text-bold">About 
-				<div id="current_playback_song_title">
-					{{ current_playback_song_title }}
-				</div>
-			</p>
-			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10 " rows="6">{{ song_summary }}</textarea>
-		</div>
+		<p class="mt-8 mb-5 text-center text-lg text-bold">About 
+			<!-- about the current artist -->
+			<div id="update_songArtist_about">
+				{{ update_songArtist_about }}
+			</div>
+		</p>
+		<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="6">{{ artist_summary }}</textarea>
+		<p class="m-5 text-center text-lg text-bold">About 
+			<!-- about the current song -->
+			<div id="update_songTitle_about">
+				{{ update_songTitle_about }}
+			</div>
+		</p>
+		<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10 " rows="6">{{ song_summary }}</textarea>
 	</div>
+	<!-- PLAYER SECTION -->
 	<div class="col-span-1">
 		<!-- contains the title of the song and name of artist that is currently playing -->
 		<div class="flex-cols mt-8 mb-4">
-				<p class="text-center text-lg text-bold">
-					<!-- currently playing song artist -->
-					<div id="current_playback_song_artist">
-						{{ current_playback_song_artist }}
-					</div>
-				</p>
+			<p class="text-center text-lg text-bold">
+				<!-- currently playing song artist -->
+				<div id="update_songArtists_player">
+					{{ update_songArtists_player }}
+				</div>
+			</p>
 			<p class="text-center text-lg text-bold">
 				<!-- currently playing song title -->
-				<div id="current_playback_song_title">
-					{{ current_playback_song_title }}
+				<div id="update_songTitle_player">
+					{{ update_songTitle_player }}
 				</div>
 			</p>
 		</div>
