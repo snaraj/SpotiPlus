@@ -5,7 +5,8 @@ import pprint
 from typing import Dict, Union, List
 
 from spotipy.oauth2 import SpotifyOAuth
-#spotiPlus.spotify.
+
+# spotiPlus.spotify.
 from spotiPlus.spotify.secrets import (
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
@@ -59,7 +60,8 @@ def get_current_user_saved_track_artist_name(track: Dict[str, str], index: int) 
     return track["items"][index]["track"]["album"]["artists"][0]["name"]
 
 
-# combines the previous functions above to get a list of [artist, song]
+# combines the previous functions above to get a list returning the 
+# following signature -> [artist, song]
 def get_current_saved_tracks_list(limit: int) -> List:
     current_saved_tracks = get_current_user_saved_tracks(limit)
     saved_artist = []
@@ -107,12 +109,20 @@ def get_current_user_current_playback_song_artist(
     else:
         return "Artist Unavailable."
 
-#get the current artist URI
+
+# get the current artist URI
 def get_current_artist_uri(current_playback: Dict[str, str]) -> str:
-    return current_playback['item']['album']['artists'][0]['uri']
+    if current_playback:
+        return current_playback["item"]["album"]["artists"][0]["uri"]
+
+    return None
+
 
 def get_current_artist_id(current_playback: Dict[str, str]) -> str:
-    return current_playback['item']['album']['artists'][0]['id']
+    if current_playback:
+        return current_playback["item"]["album"]["artists"][0]["id"]
+
+    return None
 
 
 # grabs the imagine for the current playback
@@ -221,12 +231,14 @@ def previous_track() -> None:
     except SpotifyException:
         return "Cannot go to the previous track"
 
+
 # button now pauses playback
 def pause_playback() -> None:
     try:
         sp.pause_playback()
     except SpotifyException:
         return "Cannot pause current playback"
+
 
 # button now resumes playback
 def resume_playback() -> None:
@@ -235,21 +247,24 @@ def resume_playback() -> None:
     except SpotifyException:
         return "Cannot resume playback"
 
+
 # generates an artist recommendation based on the current artist
 def get_related_artists(artist_id: str) -> None:
-    #list to be populated with related artists
+    # list to be populated with related artists
     related_artists = []
-    
-    try: 
-        #artist_related_artits find related artist based on artist URI
-        response = sp.artist_related_artists(artist_id)
-    except SpotifyException:
-        return "Cannot find current artist."
+    if artist_id is None:
+        related_artists.append("No playback detected.")
+    else:
+        try:
+            # artist_related_artits find related artist based on artist URI
+            response = sp.artist_related_artists(artist_id)
+        except SpotifyException:
+            return "Cannot find current artist."
 
-    #appends artist name to related artist list.
-    for index, artist in enumerate(response['artists']):
-        related_artists.append(artist['name'])
-    
+        # appends artist name to related artist list.
+        for index, artist in enumerate(response["artists"]):
+            related_artists.append(artist["name"])
+
     return related_artists
 
 # to generate a recommendation you need a Spotify ID. you can pass
