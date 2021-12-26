@@ -1,4 +1,47 @@
 {% extends "base.html" %}
+{% block header_js %}
+<script type="text/javascript">
+	// call updatePlayback_songTitle() every 5000 milliseconds
+
+	//Write a bunch of functions like this one for every section that needs to be updated
+	//they need to have unique div id's because this only updates the first instance 
+	//that it finds of itself. The name of the function should not match the name of the
+	//div id, this will always cause a TypeError error.
+	$(function () {
+		window.setInterval(function() {
+			allFunctions();
+		}, 1000);
+
+		function update_playback(){
+			$.ajax({
+				url: "/update_playback",
+				type: "POST",
+				dataType: "json",
+				success: function(data){
+					$(current_playback_song_title).replaceWith(data)
+				}
+			});
+		}
+
+		function update_aboutArtist(){
+			$.ajax({
+				url: "/update_aboutArtist",
+				type: "POST",
+				dataType: "json",
+				success: function(data){
+					$(update_songArtist_about).replaceWith(data)
+
+				}
+			})
+		}
+
+		function allFunctions() {
+			update_playback();
+			update_aboutArtist();
+		}
+	});
+</script>
+{% endblock %}
 {% block title %} Spoti+ {% endblock %}
 {% block body %}
 <div class="flex flex-row justify-center items-center p-10">
@@ -20,20 +63,42 @@
 	</div>
 	<div class="col-span-1">
 		<div class="">
-			<p class="mt-8 mb-5 text-center text-lg text-bold">About {{ current_playblack_song_artist }}</p>
+			<p class="mt-8 mb-5 text-center text-lg text-bold">About 
+				<!-- about the current artist -->
+				<div id="update_songArtist_about">
+					{{ update_songArtist_about }}
+				</div>
+			</p>
 			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="6">{{ artist_summary }}</textarea>
-			<p class="m-5 text-center text-lg text-bold">About {{ current_playback_song_title }}</p>
+			<p class="m-5 text-center text-lg text-bold">About 
+				<div id="current_playback_song_title">
+					{{ current_playback_song_title }}
+				</div>
+			</p>
 			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10 " rows="6">{{ song_summary }}</textarea>
 		</div>
 	</div>
 	<div class="col-span-1">
+		<!-- contains the title of the song and name of artist that is currently playing -->
 		<div class="flex-cols mt-8 mb-4">
-			<p class="text-center text-lg text-bold">{{ current_playback_song_title }}</p>
-			<p class="text-center text-lg text-bold">{{ current_playblack_song_artist }}</p>
+				<p class="text-center text-lg text-bold">
+					<!-- currently playing song artist -->
+					<div id="current_playback_song_artist">
+						{{ current_playback_song_artist }}
+					</div>
+				</p>
+			<p class="text-center text-lg text-bold">
+				<!-- currently playing song title -->
+				<div id="current_playback_song_title">
+					{{ current_playback_song_title }}
+				</div>
+			</p>
 		</div>
 		<div class="flex justify-center">
 			{% if current_playback_image_uri %}
-				<img src="{{ current_playback_image_uri }}" width="425px" height="425px" class="mb-4">
+				<div id="current_playback_image_uri">
+					<img src="{{ current_playback_image_uri }}" width="425px" height="425px" class="mb-4">
+				</div>
 			{% else %}
 				<p>No current playback</p>
 			{% endif %}
@@ -85,7 +150,11 @@
 		</div>
 	<div>
 		<div class="col-span-1">
-			<h3 class="text-center">Artist similar to {{ current_playblack_song_artist }}</h3>
+				<h3 class="text-center">Artist similar to 
+					<div id="current_playback_song_artist">
+						{{ current_playback_song_artist }}
+					</div>
+				</h3>
 			<ul>
 				{% for artist in recommended_artist: %}
 					<li class="p-0.2">{{ artist }}</li>
@@ -94,16 +163,4 @@
 		</div>
 	</div>
 </div>
-
-<!-- <table>
-	<tr>
-	{% for song, artist, path in zip(songs, artists, paths): %}
-		<tr>
-			<td>{{ song }}</td>
-			<td>{{ artist }}</td>
-			<td><a href="{{ path }}">Genius Link: {{ song }}</a></td>
-		</tr>
-	{% endfor %}
-	</tr>
-</table> -->
 {% endblock %}
