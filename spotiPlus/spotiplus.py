@@ -34,7 +34,7 @@ saved_recent_tracks = saved_tracks_list[0]
 saved_recent_artist = saved_tracks_list[1]
 
 # song paths to genius pages for most recent saved songs
-song_paths = get_genius_path(saved_recent_artist, saved_recent_tracks)
+# song_paths = get_genius_path(saved_recent_artist, saved_recent_tracks)
 
 # recommended artists and songs based on current playback
 recommended_artist = get_related_artists(artist_uri)
@@ -76,51 +76,152 @@ home_template_variables = {
     # updating the Player section
     "update_songTitle_player": current_playback_song_title,
     "update_songArtists_player": current_playback_song_artist,
+    "update_songImage_player": current_playback_image_uri,
+    # updating song lyrics
+    "update_songLyrics": current_song_lyrics,
+    # updating summary
+    "update_artistSummary": artist_summary,
+    "update_songSummary": song_summary,
 }
 
+# route that updates the summary about the current song title
+@bp.route("/update_currentSongSummary", methods=["POST"])
+def updateSongSummary():
+    current_playback = get_current_user_current_playback()
+    current_playback_song_title = get_current_user_current_playback_song_title(
+        current_playback
+    )
+    current_playback_song_artist = get_current_user_current_playback_song_artist(
+        current_playback
+    )
+    song_summary = get_track_summary(
+        current_playback_song_title, current_playback_song_artist
+    )
+
+    return jsonify('', render_template('home/update_songSummary.html',
+        update_songSummary=song_summary
+    ))
+
+# route that updates the summary about the current song artist
+@bp.route("/update_currentArtistSummary", methods=["POST"])
+def updateArtistSummary():
+    current_playback = get_current_user_current_playback()
+    current_playback_song_artist = get_current_user_current_playback_song_artist(
+        current_playback
+    )
+    
+    artist_summary = get_artist_summary(current_playback_song_artist)
+
+    return jsonify('', render_template('home/update_artistSummary.html',
+        update_artistSummary = artist_summary
+    ))
+
+# route that updates the lyrics of the current song
+@bp.route("/update_lyrics", methods=["POST"])
+def updateLyrics():
+    # current playback
+    current_playback = get_current_user_current_playback()
+    current_playback_song_title = get_current_user_current_playback_song_title(
+        current_playback
+    )
+    current_playback_song_artist = get_current_user_current_playback_song_artist(
+        current_playback
+    )
+
+    # current song lyrics
+    current_song_lyrics = get_song_lyrics(
+        current_playback_song_artist, current_playback_song_title
+    )
+
+    return jsonify('', render_template('home/update_songLyrics.html',
+    update_songLyrics=current_song_lyrics))
+
+# route that updates the current song image in the player section
+@bp.route("/update_playerImage", methods=["POST"])
+def updatePlayerImage():
+    # updated playback
+    current_playback = get_current_user_current_playback()
+    # updated song image
+    current_playback_image_uri = get_current_playback_image(current_playback)
+
+    return jsonify("", render_template('home/update_songImage_player.html', 
+    update_songImage_player=current_playback_image_uri))
+
 # route that updates the current song artist in the player section
-@bp.route('/update_playerArtists', methods=['POST'])
+@bp.route("/update_playerArtists", methods=["POST"])
 def updatePlayerSongArtists():
     # updated playback
     current_playback = get_current_user_current_playback()
     # updated song artist
-    update_songArtists_player = get_current_user_current_playback_song_artist(current_playback)
+    update_songArtists_player = get_current_user_current_playback_song_artist(
+        current_playback
+    )
 
-    return jsonify('', render_template('home/update_songArtists_player.html',
-    update_songArtists_player = update_songArtists_player))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songArtists_player.html",
+            update_songArtists_player=update_songArtists_player,
+        ),
+    )
+
 
 # route that updates current song title in the player section
-@bp.route('/update_playerTitle', methods=['POST'])
+@bp.route("/update_playerTitle", methods=["POST"])
 def updatePlayerSongTitle():
     # updated playback
     current_playback = get_current_user_current_playback()
     # updated song title
-    update_songTitle_player = get_current_user_current_playback_song_title(current_playback)
+    update_songTitle_player = get_current_user_current_playback_song_title(
+        current_playback
+    )
 
-    return jsonify('', render_template('home/update_songTitle_player.html',
-    update_songTitle_player = update_songTitle_player))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songTitle_player.html",
+            update_songTitle_player=update_songTitle_player,
+        ),
+    )
+
 
 # route that updates current song artist in the about section
-@bp.route('/update_aboutArtist', methods=['POST'])
+@bp.route("/update_aboutArtist", methods=["POST"])
 def updateAboutSongArtists():
     # updated playback
     current_playback = get_current_user_current_playback()
     # updated artist
-    update_songArtist_about = get_current_user_current_playback_song_artist(current_playback)
+    update_songArtist_about = get_current_user_current_playback_song_artist(
+        current_playback
+    )
 
-    return jsonify('', render_template('home/update_songArtist_about.html', 
-    update_songArtist_about = update_songArtist_about))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songArtist_about.html",
+            update_songArtist_about=update_songArtist_about,
+        ),
+    )
+
 
 # route that updates current song title in the about section
-@bp.route('/update_aboutTitle', methods=['POST'])
+@bp.route("/update_aboutTitle", methods=["POST"])
 def updateAboutSongTitle():
     # updated playback
     current_playback = get_current_user_current_playback()
     # updated song title
-    update_songTitle_about = get_current_user_current_playback_song_title(current_playback)
+    update_songTitle_about = get_current_user_current_playback_song_title(
+        current_playback
+    )
 
-    return jsonify('', render_template('home/update_songTitle_about.html', 
-    update_songTitle_about = update_songTitle_about)) 
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songTitle_about.html",
+            update_songTitle_about=update_songTitle_about,
+        ),
+    )
+
 
 @bp.route("/", methods=["GET", "POST"])
 def spotify():
