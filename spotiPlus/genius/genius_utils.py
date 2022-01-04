@@ -4,6 +4,7 @@ from spotiPlus.genius.secrets import GENIUS_ACCESS_TOKEN
 from lyricsgenius import Genius
 from typing import Dict, List
 
+# generates genius authorization token
 genius = Genius(GENIUS_ACCESS_TOKEN)
 
 headers = {
@@ -12,7 +13,7 @@ headers = {
 
 song_paths = []
 
-
+# generates query string
 def generate_payload(artist_name: str, song_name: str) -> Dict[str, str]:
     return {"q": f"{artist_name} {song_name}"}
 
