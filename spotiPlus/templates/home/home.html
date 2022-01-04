@@ -1,71 +1,125 @@
 {% extends "base.html" %}
 {% block header_js %}
 <script type="text/javascript">
-	// call updatePlayback_songTitle() every 5000 milliseconds
+	// call updateDashboard() every 1000 milliseconds
 
 	//Write a bunch of functions like this one for every section that needs to be updated
 	//they need to have unique div id's because this only updates the first instance 
 	//that it finds of itself. The name of the function should not match the name of the
 	//div id, this will always cause a TypeError error.
+
+	// NEXT STEP
+	// CHANGE THE UPDATE TIMER TO FIRE ON THE LENGTH OF THE SONG INSTEAD OF SET AMOUNT OF TIME
 	$(function () {
 		window.setInterval(function() {
 			updateDashboard();
-		}, 1000);
+		}, 2000);
+	})
 
-		function update_aboutTitle(){
-			$.ajax({
-				url: "/update_aboutTitle",
-				type: "POST",
-				dataType: "json",
-				success: function(data){
-					$(update_songTitle_about).replaceWith(data)
-				}
-			});
-		}
+	function update_aboutTitle(){
+		$.ajax({
+			url: "/update_aboutTitle",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				$(update_songTitle_about).replaceWith(data)
+			}
+		});
+	}
 
-		function update_aboutArtist(){
-			$.ajax({
-				url: "/update_aboutArtist",
-				type: "POST",
-				dataType: "json",
-				success: function(data){
-					$(update_songArtist_about).replaceWith(data)
+	function update_aboutArtist(){
+		$.ajax({
+			url: "/update_aboutArtist",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				$(update_songArtist_about).replaceWith(data)
 
-				}
-			})
-		}
+			}
+		})
+	}
 
-		function update_playerTitle() {
-			$.ajax({
-				url: "/update_playerTitle",
-				type: "POST",
-				dataType: "json",
-				success: function(data) {
-					$(update_songTitle_player).replaceWith(data)
-				}
-			})
-		}
+	function update_playerTitle() {
+		$.ajax({
+			url: "/update_playerTitle",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_songTitle_player).replaceWith(data)
+			}
+		})
+	}
 
-		function update_playerArtist() {
-			$.ajax({
-				url: "/update_playerArtists",
-				type: "POST",
-				dataType: "json",
-				success: function(data) {
-					$(update_songArtists_player).replaceWith(data)
-				}
-			})
-		}
+	function update_playerArtist() {
+		$.ajax({
+			url: "/update_playerArtists",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_songArtists_player).replaceWith(data)
+			}
+		})
+	}
 
-		function updateDashboard() {
-			// updating About section
-			update_aboutTitle();
-			update_aboutArtist();
-			// updating Player section
-			update_playerTitle();
-			update_playerArtist();
-		}
-	});
+	function update_playerImage() {
+		$.ajax({
+			url: "/update_playerImage",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_songImage_player).replaceWith(data)
+			}
+		})
+	}
+
+	function update_lyrics() {
+		$.ajax({
+			url: "/update_lyrics",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_songLyrics).replaceWith(data)
+			}
+		})
+	}
+
+	function update_currentArtistSummary() {
+		$.ajax({
+			url: "/update_currentArtistSummary",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_artistSummary).replaceWith(data)
+			}
+		})
+	}
+
+	function update_currentSongSummary() {
+		$.ajax({
+			url: "/update_currentSongSummary",
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+				$(update_songSummary).replaceWith(data)
+			}
+		})
+	}
+
+	function updateDashboard() {
+		// updating About section
+		update_aboutTitle();
+		update_aboutArtist();
+		// updating Player section
+		update_playerTitle();
+		update_playerArtist();
+		update_playerImage();
+		// updating Song lyrics
+		update_lyrics();
+		// updating artist and song summaries
+		update_currentArtistSummary();
+		update_currentSongSummary();
+	}
+
 </script>
 {% endblock %}
 {% block title %} Spoti+ {% endblock %}
@@ -82,27 +136,38 @@
 	</div>
 </div>
 <div class="grid grid-flow-col grid-cols-3 gap-5 pb-10">
+	<!-- SONG LYRICS -->
 	<div class="col-span-1">
-		<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="20">
-			{{ current_song_lyrics }}
-		</textarea>
+		<div id="update_songLyrics"><textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="20">
+				{{ update_songLyrics }}
+		</textarea></div>
 	</div>
 	<!-- ABOUT SECTION -->
 	<div class="col-span-1">
-		<p class="mt-8 mb-5 text-center text-lg text-bold">About 
-			<!-- about the current artist -->
-			<div id="update_songArtist_about">
-				{{ update_songArtist_about }}
-			</div>
-		</p>
-		<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="6">{{ artist_summary }}</textarea>
+		<div id="update_songArtist_about">
+			<!-- About Artist title -->
+			<p class="mt-8 mb-5 text-center text-lg text-bold">About 
+					{{ update_songArtist_about }}
+			</p>
+		</div>
+		<!-- ARTIST SUMMARY -->
+		<div id="update_artistSummary">
+			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10" rows="6">
+				{{ artist_summary }}
+			</textarea>
+		</div>
 		<p class="m-5 text-center text-lg text-bold">About 
 			<!-- about the current song -->
 			<div id="update_songTitle_about">
 				{{ update_songTitle_about }}
 			</div>
 		</p>
-		<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10 " rows="6">{{ song_summary }}</textarea>
+		<!-- SONG SUMMARY -->
+		<div id="update_songSummary">
+			<textarea class="w-full px-3 py-2 text-gray-700 rounded-lg focus:outline-none pt-10 " rows="6">
+				{{ update_songSummary }}
+			</textarea>
+		</div>
 	</div>
 	<!-- PLAYER SECTION -->
 	<div class="col-span-1">
@@ -123,7 +188,7 @@
 		</div>
 		<div class="flex justify-center">
 			{% if current_playback_image_uri %}
-				<div id="current_playback_image_uri">
+				<div id="update_songImage_player">
 					<img src="{{ current_playback_image_uri }}" width="425px" height="425px" class="mb-4">
 				</div>
 			{% else %}
