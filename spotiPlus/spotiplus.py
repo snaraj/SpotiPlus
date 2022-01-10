@@ -98,9 +98,13 @@ def updateSongSummary():
         current_playback_song_title, current_playback_song_artist
     )
 
-    return jsonify('', render_template('home/update_songSummary.html',
-        update_songSummary=song_summary
-    ))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songSummary.html", update_songSummary=song_summary
+        ),
+    )
+
 
 # route that updates the summary about the current song artist
 @bp.route("/update_currentArtistSummary", methods=["POST"])
@@ -109,12 +113,16 @@ def updateArtistSummary():
     current_playback_song_artist = get_current_user_current_playback_song_artist(
         current_playback
     )
-    
+
     artist_summary = get_artist_summary(current_playback_song_artist)
 
-    return jsonify('', render_template('home/update_artistSummary.html',
-        update_artistSummary = artist_summary
-    ))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_artistSummary.html", update_artistSummary=artist_summary
+        ),
+    )
+
 
 # route that updates the lyrics of the current song
 @bp.route("/update_lyrics", methods=["POST"])
@@ -133,8 +141,13 @@ def updateLyrics():
         current_playback_song_artist, current_playback_song_title
     )
 
-    return jsonify('', render_template('home/update_songLyrics.html',
-    update_songLyrics=current_song_lyrics))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songLyrics.html", update_songLyrics=current_song_lyrics
+        ),
+    )
+
 
 # route that updates the current song image in the player section
 @bp.route("/update_playerImage", methods=["POST"])
@@ -144,8 +157,14 @@ def updatePlayerImage():
     # updated song image
     current_playback_image_uri = get_current_playback_image(current_playback)
 
-    return jsonify("", render_template('home/update_songImage_player.html', 
-    update_songImage_player=current_playback_image_uri))
+    return jsonify(
+        "",
+        render_template(
+            "home/update_songImage_player.html",
+            update_songImage_player=current_playback_image_uri,
+        ),
+    )
+
 
 # route that updates the current song artist in the player section
 @bp.route("/update_playerArtists", methods=["POST"])
